@@ -1,0 +1,29 @@
+﻿using FluentAssertions;
+using TechTalk.SpecFlow;
+
+namespace ProductRatings.Test.SpecFlow
+{
+    [Binding]
+    public class RatingAProductSteps
+    {
+        private Product _product;
+
+        [Given(@"a product")]
+        public void GivenAProduct()
+        {
+            _product = new Product();
+        }
+        
+        [When(@"I rate the product (.*) stars")]
+        public void WhenIRateTheProductStars(int numberOfStars)
+        {
+            _product.Rate(numberOfStars);
+        }
+        
+        [Then(@"the average product rating should be (.*) stars")]
+        public void ThenTheAverageProductRatingShouldBeStars(int expectedAverageRating)
+        {
+            _product.AverageRating.Should().Be(expectedAverageRating);
+        }
+    }
+}
