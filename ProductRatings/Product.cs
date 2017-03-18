@@ -4,6 +4,7 @@ namespace ProductRatings
 {
     public class Product
     {
+        [PetaPoco.Ignore]
         public RatingList Ratings { get; }
 
         public Product()
@@ -15,8 +16,8 @@ namespace ProductRatings
         {
             Ratings.Add(numberOfStars);
         }
-
-        public double AverageRating => Ratings.Average();
+        [PetaPoco.Ignore]
+        public double AverageRating => Ratings.Count == 0 ? 0 : Ratings.Average();
         public string Name { get; set; }
     }
 }

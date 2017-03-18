@@ -6,45 +6,33 @@ using NUnit.Framework;
 namespace ProductRatings.Test
 {
     [TestFixture]
-    internal class WhenPersistingToAFile
+    public class WhenPersitingToAFile : WhenPersisting
     {
-        private string _fileName;
-        private Persistence _persistence;
-        private Catalog _originalCatalog;
-
+        protected string FileName;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
-            _fileName = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".bin");
+            FileName = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".bin");
 
-            _persistence = new Persistence(new FileBackend(_fileName));
-
-            var product1 = new Product{Name = "Product 1"};
-            product1.Rate(5);
-
-            _originalCatalog = new Catalog {product1};
-            _persistence.Persist(_originalCatalog);
+            base.SetUp();
         }
 
         [TearDown]
         public void TearDown()
         {
-            File.Delete(_fileName);
+            File.Delete(FileName);
+        }
+
+        protected override IPersistenceBackend GetBackend()
+        {
+            return new FileBackend(FileName);
         }
 
         [Test]
         public void AFileShouldBeCreated()
         {
-            File.Exists(_fileName).Should().BeTrue();
-        }
-
-        [Test]
-        public void PersistedDataShouldBeEquivalent()
-        {
-            var restoredCatalog = _persistence.Load();
-
-            restoredCatalog.ShouldAllBeEquivalentTo(_originalCatalog);
+            File.Exists(FileName).Should().BeTrue();
         }
     }
 }

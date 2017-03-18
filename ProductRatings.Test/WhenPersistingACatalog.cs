@@ -1,23 +1,13 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ProductRatings.Test
 {
     [TestFixture]
-    internal class WhenPersistingACatalog
+    internal class WhenPersistingInMemory : WhenPersisting
     {
-        [Test]
-        public void TheProductsShouldBeStored()
+        protected override IPersistenceBackend GetBackend()
         {
-            var catalog = new Catalog {new Product {Name = "Product1"}};
-
-            var persistence = new Persistence(new MemoryBackend());
-
-            persistence.Persist(catalog);
-
-            var restoredCatalog = persistence.Load();
-
-            restoredCatalog.Get("Product1").Should().NotBeNull();
+            return new MemoryBackend();
         }
     }
 
