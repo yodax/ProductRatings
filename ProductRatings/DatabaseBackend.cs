@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using PetaPoco;
 
 namespace ProductRatings
@@ -12,43 +13,94 @@ namespace ProductRatings
             _db = new Database($"Data Source={fileName};Version=3", new SQLiteDatabaseProvider());
         }
 
-        public void Persist(Catalog catalog)
+        public void Persist()
         {
+        }
+
+        public void Load()
+        {
+            InitializeSchema();
+        }
+
+        public IEnumerable<Product> AllProducts
+        {
+            get
+            {
+                var products = _db.Query<dynamic>("SELECT * FROM Product");
+
+                foreach (var product in products)
+                    yield return new Product(this, product.Name);
+            }
+        }
+
+        public Product Get(string productName)
+        {
+            var product = _db.Fetch<dynamic>("SELECT * FROM Product");
+
+            return new Product(this, product.First().Name);
+        }
+
+        public Product AddProduct(string name)
+        {
+            _db.Insert("Product", new {Name = name});
+
+            return new Product(this, name);
+        }
+
+        public IEnumerable<int> AllRatingsFor(string productName)
+        {
+            return _db.Query<int>(Sql.Builder
+                .Append("SELECT Stars")
+                .Append("FROM Rating")
+                .Append("WHERE ProductName = @0", productName));
+        }
+
+        public void RateProductCalled(string name, int numberOfStars)
+        {
+            _db.Insert("Rating", new {ProductName = name, Stars = numberOfStars});
+        }
+
+        public double AverageRatingFor(string productName)
+        {
+            var numberOfRatings =
+                _db.ExecuteScalar<int>(Sql.Builder
+                    .Append("SELECT COUNT(*)")
+                    .Append("FROM Rating")
+                    .Append("WHERE ProductName = @0", productName));
+
+            if (numberOfRatings == 0)
+                return 0;
+
+            return _db.ExecuteScalar<double>(Sql.Builder
+                .Append("SELECT AVG(Stars)")
+                .Append("FROM Rating")
+                .Append("WHERE ProductName = @0", productName));
+        }
+
+        private void InitializeSchema()
+        {
+            if (TableExists("Product"))
+                return;
+
             _db.Execute(Sql.Builder
                 .Append("CREATE TABLE Product (")
                 .Append("Name VARCHAR(250)")
-                .Append(");")   
-                );
+                .Append(");")
+            );
 
             _db.Execute(Sql.Builder
                 .Append("CREATE TABLE Rating (")
                 .Append("ProductName VARCHAR(250),")
                 .Append("Stars int")
                 .Append(");")
-                );
-
-            foreach (var product in catalog)
-            {
-                _db.Insert(product);
-                foreach (var productRating in product.Ratings)
-                {
-                    _db.Insert("Rating", "ProductName", new { ProductName = product.Name, Stars = productRating});
-                }
-            }
+            );
         }
 
-        public Catalog Load()
+        private bool TableExists(string tableName)
         {
-            var catalog = new Catalog();
-            var products = _db.Fetch<Product>("SELECT * FROM Product");
-            var allRatings = _db.Fetch<dynamic>("SELECT * FROM Rating");
-            foreach (var rating in allRatings)
-            {
-                var selectedProduct = products.Single(p => p.Name.Equals(rating.ProductName));
-                selectedProduct.Ratings.Add(rating.Stars);
-            }
-            catalog.AddRange(products);
-            return catalog;
+            var result =
+                _db.Fetch<dynamic>("SELECT name As Name FROM sqlite_master WHERE type=\'table\' AND name=\'Product\';");
+            return result.Count == 1 && result.First().Name.Equals(tableName);
         }
     }
 }

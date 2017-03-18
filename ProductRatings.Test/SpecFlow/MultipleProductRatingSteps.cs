@@ -12,12 +12,12 @@ namespace ProductRatings.Test.SpecFlow
         [BeforeScenario]
         public void SetUp()
         {
-            _catalog = new Catalog();
+            _catalog = new Catalog(new MemoryBackend());
         }
         [Given(@"a product called ""(.*)""")]
         public void GivenAProductCalled(string productName)
         {
-            _catalog.Add(new Product {Name = productName});
+            _catalog.AddProductCalled(productName);
         }
         
         [When(@"I rate ""(.*)"" (.*) stars")]

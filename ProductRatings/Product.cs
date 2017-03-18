@@ -1,23 +1,21 @@
-using System.Linq;
-
 namespace ProductRatings
 {
     public class Product
     {
-        [PetaPoco.Ignore]
-        public RatingList Ratings { get; }
+        private readonly string _name;
+        private readonly IPersistenceBackend _persistenceBackend;
 
-        public Product()
+        public Product(IPersistenceBackend persistenceBackend, string name)
         {
-            Ratings = new RatingList();
+            _persistenceBackend = persistenceBackend;
+            _name = name;
         }
+
+        public double AverageRating => _persistenceBackend.AverageRatingFor(_name);
 
         public void Rate(int numberOfStars)
         {
-            Ratings.Add(numberOfStars);
+            _persistenceBackend.RateProductCalled(_name, numberOfStars);
         }
-        [PetaPoco.Ignore]
-        public double AverageRating => Ratings.Count == 0 ? 0 : Ratings.Average();
-        public string Name { get; set; }
     }
 }

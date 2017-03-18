@@ -9,43 +9,92 @@ namespace ProductRatings.Test
         [SetUp]
         public virtual void SetUp()
         {
-            _persistence = new Persistence(GetBackend());
+            //_persistence = new Persistence(GetBackend());
 
-            _originalCatalog = TestCatalog.Create();
 
-            _persistence.Persist(_originalCatalog);
+            //var ratedProduct = new Product { Name = "Product 1" };
+            //ratedProduct.Rate(3);
 
-            _restoredCatalog = _persistence.Load();
+            //var ratedProduct2 = new Product { Name = "Product 2" };
+            //ratedProduct2.Rate(4);
+
+            //var unRatedProduct3 = new Product { Name = "Product 3" };
+
+            //_originalCatalog = new Catalog { ratedProduct, ratedProduct2, unRatedProduct3 };
+
+
+
+            //_persistence.Persist(_originalCatalog);
+
+            //_restoredCatalog = _persistence.Load();
+
+            _originalCatalog = new Catalog(GetBackend());
+
+            _originalCatalog.AddProductCalled("Product 1");
+            _originalCatalog.Get("Product 1").Rate(5);
+            _originalCatalog.Get("Product 1").Rate(1);
+            _originalCatalog.AddProductCalled("Product 2").Rate(4);
+            _originalCatalog.AddProductCalled("Product 3");
+
+            _originalCatalog.Persist();
+
+            _restoredCatalog = new Catalog(GetBackend());
         }
 
         protected abstract IPersistenceBackend GetBackend();
 
-        private Persistence _persistence;
         private Catalog _originalCatalog;
         private Catalog _restoredCatalog;
 
         [Test]
         public void AllPersistedDataShouldBeEquivalent()
         {
-            _restoredCatalog.ShouldAllBeEquivalentTo(_originalCatalog);
+            _restoredCatalog.AllProducts.ToList().ShouldAllBeEquivalentTo(_originalCatalog.AllProducts.ToList());
         }
+
+        [Test]
+        public void OnANonEmptyStorage()
+        {
+            _restoredCatalog.AddProductCalled("Secondary save product").Rate(1);
+
+            _restoredCatalog.Persist();
+
+            var secondaryCatalog = new Catalog(GetBackend());
+
+            secondaryCatalog.Get("Secondary save product").Should().NotBeNull();
+            secondaryCatalog.AllProducts.Count().Should().Be(4);
+        }
+
+        [Test]
+        public void AllInstancesOfTheStorageShouldReceiveTheUpdates()
+        {
+            _restoredCatalog.AddProductCalled("Secondary save product").Rate(1);
+
+            _restoredCatalog.Persist();
+    
+            var secondaryCatalog = new Catalog(GetBackend());
+
+            secondaryCatalog.AllProducts.ToList().ShouldAllBeEquivalentTo(_originalCatalog.AllProducts.ToList());
+    }
 
         [Test]
         public void AllProductsShouldBePresent()
         {
-            _restoredCatalog.Count.Should().Be(_originalCatalog.Count);
+            _restoredCatalog.AllProducts.Count().Should().Be(_originalCatalog.AllProducts.Count());
         }
 
         [Test]
         public void RatingsShouldBeStored()
         {
-            _restoredCatalog.First(p => p.Ratings.Any()).Should().NotBeNull();
+            _restoredCatalog.AllRatingsFor("Product 1").Count().Should().Be(2);
+            _restoredCatalog.AllRatingsFor("Product 2").Count().Should().Be(1);
+            _restoredCatalog.AllRatingsFor("Product 3").Count().Should().Be(0);
         }
 
         [Test]
         public void AverageRatingShouldBePresent()
         {
-            _restoredCatalog.First(p => p.AverageRating > 0).Should().NotBeNull();
+            _restoredCatalog.Get("Product 1").AverageRating.Should().Be(3);
         }
 
         [Test]

@@ -65,9 +65,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RatingAProduct.feature</DependentUpon>
     </Compile>
-    <Compile Include="TestCatalog.cs" />
     <Compile Include="WhenPersisting.cs" />
-    <Compile Include="WhenPersistingACatalog.cs" />
+    <Compile Include="WhenPersistingInMemory.cs" />
     <Compile Include="WhenPersistingToADatabase.cs" />
     <Compile Include="WhenPersistingToAFile.cs" />
   </ItemGroup>

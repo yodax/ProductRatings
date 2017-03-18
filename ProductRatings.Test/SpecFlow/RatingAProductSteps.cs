@@ -11,7 +11,7 @@ namespace ProductRatings.Test.SpecFlow
         [Given(@"a product")]
         public void GivenAProduct()
         {
-            _product = new Product();
+            _product = new Catalog(new MemoryBackend()).AddProductCalled("Product 1");
         }
         
         [When(@"I rate the product (.*) stars")]
