@@ -3,6 +3,7 @@
     <HiddenComponentWarnings>
       <Value>LongTestTimesWithoutParallelExecution</Value>
     </HiddenComponentWarnings>
+    <PreloadReferencedAssemblies>True</PreloadReferencedAssemblies>
     <PreviouslyBuiltSuccessfully>True</PreviouslyBuiltSuccessfully>
   </Settings>
 </ProjectConfiguration>

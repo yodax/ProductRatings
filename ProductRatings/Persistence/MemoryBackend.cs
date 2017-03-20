@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace ProductRatings
+namespace ProductRatings.Persistence
 {
     public class MemoryBackend : IPersistenceBackend
     {
-        protected static List<InternalProduct> InternalProducts;
+        protected List<InternalProduct> InternalProducts;
 
         public MemoryBackend()
         {

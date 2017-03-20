@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ProductRatings
+namespace ProductRatings.Persistence
 {
     public class FileBackend : MemoryBackend
     {

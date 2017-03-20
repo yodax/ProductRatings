@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ProductRatings
+namespace ProductRatings.Persistence
 {
     public interface IPersistenceBackend
     {

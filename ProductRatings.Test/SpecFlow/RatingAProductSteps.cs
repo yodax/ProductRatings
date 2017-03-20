@@ -1,9 +1,12 @@
-﻿using FluentAssertions;
+﻿using System.Diagnostics.CodeAnalysis;
+using FluentAssertions;
+using ProductRatings.Persistence;
 using TechTalk.SpecFlow;
 
 namespace ProductRatings.Test.SpecFlow
 {
     [Binding]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class RatingAProductSteps
     {
         private Product _product;

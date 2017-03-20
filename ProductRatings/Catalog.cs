@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ProductRatings.Persistence;
 
 namespace ProductRatings
 {

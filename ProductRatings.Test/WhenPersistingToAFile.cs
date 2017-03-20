@@ -2,6 +2,7 @@
 using System.IO;
 using FluentAssertions;
 using NUnit.Framework;
+using ProductRatings.Persistence;
 
 namespace ProductRatings.Test
 {

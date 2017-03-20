@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PetaPoco;
+using PetaPoco.Providers;
 
-namespace ProductRatings
+namespace ProductRatings.Persistence
 {
     public class DatabaseBackend : IPersistenceBackend
     {

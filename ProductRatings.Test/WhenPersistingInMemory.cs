@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using ProductRatings.Persistence;
 
 namespace ProductRatings.Test
 {
@@ -10,8 +11,8 @@ namespace ProductRatings.Test
         [SetUp]
         public override void SetUp()
         {
+            // The in memory backend requires the same instance for the tests
             _memoryBackend = new MemoryBackend();
-
             base.SetUp();
         }
 

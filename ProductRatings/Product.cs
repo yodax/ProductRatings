@@ -1,3 +1,5 @@
+using ProductRatings.Persistence;
+
 namespace ProductRatings
 {
     public class Product

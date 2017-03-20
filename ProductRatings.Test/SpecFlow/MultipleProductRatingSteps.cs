@@ -1,10 +1,12 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
+﻿using System.Diagnostics.CodeAnalysis;
+using FluentAssertions;
+using ProductRatings.Persistence;
 using TechTalk.SpecFlow;
 
 namespace ProductRatings.Test.SpecFlow
 {
     [Binding]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class MultipleProductRatingSteps
     {
         private Catalog _catalog;
@@ -14,18 +16,19 @@ namespace ProductRatings.Test.SpecFlow
         {
             _catalog = new Catalog(new MemoryBackend());
         }
+
         [Given(@"a product called ""(.*)""")]
         public void GivenAProductCalled(string productName)
         {
             _catalog.AddProductCalled(productName);
         }
-        
+
         [When(@"I rate ""(.*)"" (.*) stars")]
         public void WhenIRateStars(string productName, int nrOfStars)
         {
             _catalog.Get(productName).Rate(nrOfStars);
         }
-        
+
         [Then(@"the average rating for ""(.*)"" should be (.*) stars")]
         public void ThenTheAverageRatingForShouldBeStars(string productName, int expectedNrOfStars)
         {
