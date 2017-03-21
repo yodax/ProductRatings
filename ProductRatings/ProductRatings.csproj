@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PetaPoco, Version=5.1.228.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PetaPoco.Core.Compiled.5.1.228\lib\net45\PetaPoco.dll</HintPath>
+    <Reference Include="PetaPoco, Version=5.1.244.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PetaPoco.Core.Compiled.5.1.244\lib\net45\PetaPoco.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
