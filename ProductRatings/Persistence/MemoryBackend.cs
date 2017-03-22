@@ -55,6 +55,11 @@ namespace ProductRatings.Persistence
             return ratings.Count == 0 ? 0 : ratings.Average();
         }
 
+        public void RemoveAll()
+        {
+            InternalProducts.Clear();
+        }
+
         private InternalProduct GetInternalProduct(string name)
         {
             return InternalProducts.Single(p => p.Name.Equals(name));

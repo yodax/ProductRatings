@@ -12,5 +12,6 @@ namespace ProductRatings.Persistence
         IEnumerable<int> AllRatingsFor(string productName);
         void RateProductCalled(string name, int numberOfStars);
         double AverageRatingFor(string productName);
+        void RemoveAll();
     }
 }

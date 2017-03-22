@@ -78,6 +78,12 @@ namespace ProductRatings.Persistence
                 .Append("WHERE ProductName = @0", productName));
         }
 
+        public void RemoveAll()
+        {
+            _db.Execute("DELETE FROM Rating;");
+            _db.Execute("DELETE FROM Product;");
+        }
+
         private void InitializeSchema()
         {
             if (TableExists("Product"))

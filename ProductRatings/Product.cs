@@ -4,20 +4,20 @@ namespace ProductRatings
 {
     public class Product
     {
-        private readonly string _name;
+        public string Name { get; }
         private readonly IPersistenceBackend _persistenceBackend;
 
         public Product(IPersistenceBackend persistenceBackend, string name)
         {
             _persistenceBackend = persistenceBackend;
-            _name = name;
+            Name = name;
         }
 
-        public double AverageRating => _persistenceBackend.AverageRatingFor(_name);
+        public double AverageRating => _persistenceBackend.AverageRatingFor(Name);
 
         public void Rate(int numberOfStars)
         {
-            _persistenceBackend.RateProductCalled(_name, numberOfStars);
+            _persistenceBackend.RateProductCalled(Name, numberOfStars);
         }
     }
 }

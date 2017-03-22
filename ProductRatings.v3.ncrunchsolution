@@ -2,6 +2,9 @@
   <Settings>
     <AllowParallelTestExecution>True</AllowParallelTestExecution>
     <AllowTestsToRunInParallelWithThemselves>True</AllowTestsToRunInParallelWithThemselves>
+    <MetricsExclusionList>
+      <Value>ProductRatings.Web\ProductRatings.Web.csproj\App_Start</Value>
+    </MetricsExclusionList>
     <SolutionConfigured>True</SolutionConfigured>
   </Settings>
 </SolutionConfiguration>

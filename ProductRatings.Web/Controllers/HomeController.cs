@@ -1,37 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ProductRatings.Persistence;
+using ProductRatings.Web.Models;
 
 namespace ProductRatings.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IPersistenceBackend _persistenceBackend;
+        private readonly Catalog _catalog;
 
-        public HomeController(IPersistenceBackend persistence)
+        public HomeController(Catalog catalog)
         {
-            _persistenceBackend = persistence;
+            _catalog = catalog;
         }
+
         public ActionResult Index()
         {
-            return View();
+            var productOverview = new ProductOverview
+            {
+                Products = _catalog
+                    .TopTenRatedProducts
+                    .Select(ConvertToProductView)
+            };
+
+            return View(productOverview);
         }
 
-        public ActionResult About()
+        private static ProductOverview.ProductView ConvertToProductView(Product p)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            return new ProductOverview.ProductView {AverageRating = p.AverageRating, Name = p.Name};
         }
 
-        public ActionResult Contact()
+        public ActionResult AllProducts()
         {
-            ViewBag.Message = "Your contact page.";
+            throw new NotImplementedException();
+        }
 
-            return View();
+        public ActionResult Populate()
+        {
+            _catalog.RemoveAll();
+
+            for (var rating = 1; rating < 5; rating++)
+            for (var currentProduct = 0; currentProduct < 5; currentProduct++)
+                _catalog.AddProductCalled($"Product {currentProduct + 1} with rating {rating}").Rate(rating);
+
+            return RedirectToAction("Index");
         }
     }
 }

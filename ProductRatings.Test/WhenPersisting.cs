@@ -30,6 +30,14 @@ namespace ProductRatings.Test
         protected Catalog RestoredCatalog;
 
         [Test]
+        public void ItemsShouldBeRemovable()
+        {
+            RestoredCatalog.RemoveAll();
+            RestoredCatalog.AllProducts.Should().BeEmpty();
+            RestoredCatalog.Persist();
+        }
+
+        [Test]
         public void AllPersistedDataShouldBeEquivalent()
         {
             RestoredCatalog.AllProducts.ToList().ShouldAllBeEquivalentTo(OriginalCatalog.AllProducts.ToList());
