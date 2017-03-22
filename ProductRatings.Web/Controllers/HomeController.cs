@@ -49,5 +49,16 @@ namespace ProductRatings.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult AddProduct()
+        {
+            return View(new AddProductModel());
+        }
+
+        public ActionResult AddProductToDatabase(AddProductModel productToAdd)
+        {
+            _catalog.AddProductCalled(productToAdd.Name);
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -106,24 +106,5 @@ namespace ProductRatings.Test.SpecFlow
             productOverview.Products.ElementAt(8).AverageRating.Should().Be(4);
             productOverview.Products.ElementAt(9).AverageRating.Should().Be(4);
         }
-
-        [Given(@"a new product called ""(.*)""")]
-        public void GivenANewProductCalled(string productName)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [When(@"I add the product")]
-        public void WhenIAddTheProduct()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"the product is added")]
-        public void ThenTheProductIsAdded()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
     }
 }
