@@ -23,6 +23,20 @@ namespace ProductRatings.Test.SpecFlow
             _catalog = new Catalog(_persistenceBackend);
         }
 
+        [Then(@"the overview should show all products ordered by name")]
+        public void ThenTheOverviewShouldShowAllProductsOrderedByName()
+        {
+            var catalog = new Catalog(_persistenceBackend);
+            var productOverview = (new HomeController(catalog)
+                            .AllProducts() as ViewResult)
+                            .Model as ProductOverview;
+
+            productOverview.Should().NotBeNull();
+            productOverview.Products.Should().NotBeNull();
+            productOverview.Products.Count().Should().Be(catalog.AllProducts.Count());
+        }
+
+
         [Given(@"a catalog")]
         public void GivenACatalog()
         {

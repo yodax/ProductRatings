@@ -123,6 +123,27 @@ testRunner.Then("it should not contain a \"Pencil\"", ((string)(null)), ((TechTa
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Show all products")]
+        public virtual void ShowAllProducts()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Show all products", ((string[])(null)));
+#line 26
+this.ScenarioSetup(scenarioInfo);
+#line 28
+testRunner.Given("a list of 5 products rated 1 stars", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 29
+testRunner.And("a list of 5 products rated 2 stars", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 30
+testRunner.And("a list of 5 products rated 3 stars", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 31
+testRunner.When("I request an overview", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 32
+testRunner.Then("the overview should show all products ordered by name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
