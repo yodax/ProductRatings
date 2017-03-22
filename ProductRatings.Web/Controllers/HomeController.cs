@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using ProductRatings.Web.Models;
 
@@ -16,14 +15,12 @@ namespace ProductRatings.Web.Controllers
 
         public ActionResult Index()
         {
-            var productOverview = new ProductOverview
+            return View(new ProductOverview
             {
                 Products = _catalog
                     .TopTenRatedProducts
                     .Select(ConvertToProductView)
-            };
-
-            return View(productOverview);
+            });
         }
 
         private static ProductOverview.ProductView ConvertToProductView(Product p)
@@ -33,7 +30,13 @@ namespace ProductRatings.Web.Controllers
 
         public ActionResult AllProducts()
         {
-            throw new NotImplementedException();
+            return View(new ProductOverview
+            {
+                Products = _catalog
+                    .AllProducts
+                    .OrderBy(p => p.Name)
+                    .Select(ConvertToProductView)
+            });
         }
 
         public ActionResult Populate()

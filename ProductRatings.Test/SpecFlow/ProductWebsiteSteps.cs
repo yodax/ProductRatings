@@ -34,6 +34,7 @@ namespace ProductRatings.Test.SpecFlow
             productOverview.Should().NotBeNull();
             productOverview.Products.Should().NotBeNull();
             productOverview.Products.Count().Should().Be(catalog.AllProducts.Count());
+            productOverview.Products.Should().BeInAscendingOrder(p => p.Name);
         }
 
 

@@ -1,3 +1,27 @@
-﻿@{
+﻿@model ProductRatings.Web.Models.ProductOverview
+
+@{
     ViewBag.Title = "All Products";
 }
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>
+                    @product.Name
+                </td>
+                <td>
+                    @product.AverageRating
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
