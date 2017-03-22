@@ -30,3 +30,9 @@ And a list of 5 products rated 2 stars
 And a list of 5 products rated 3 stars
 When I request an overview
 Then the overview should show all products ordered by name
+
+Scenario: Add a product
+
+Given a new product called "Pencil"
+When I add the product
+Then the product is added
